@@ -1,8 +1,13 @@
+import java.util.Properties
 plugins { id("com.android.application"); id("org.jetbrains.kotlin.android") }
+val localProperties = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) load(f.inputStream())
+}
 android {
     namespace = "com.example.assignment4q2"
     compileSdk = 34
-    defaultConfig { applicationId = "com.example.assignment4q2"; minSdk = 24; targetSdk = 34; versionCode = 1; versionName = "1.0"; testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"; vectorDrawables.useSupportLibrary = true }
+    defaultConfig { applicationId = "com.example.assignment4q2"; minSdk = 24; targetSdk = 34; versionCode = 1; versionName = "1.0"; testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"; vectorDrawables.useSupportLibrary = true; manifestPlaceholders["MAPS_API_KEY"] = localProperties.getProperty("MAPS_API_KEY", "") }
     buildTypes { release { isMinifyEnabled = false; proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro") } }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_1_8; targetCompatibility = JavaVersion.VERSION_1_8 }
     kotlinOptions { jvmTarget = "1.8" }
